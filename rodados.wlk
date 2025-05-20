@@ -109,9 +109,9 @@ class Dependencia {
 
   method pesoTotalFlota() = flota.sum({r => r.peso()})
 
-  method estaBienEquipada() = self.tieneAlMenos3Rodados() && self.todosVanAlMenosA100()
+  method estaBienEquipada() = self.tieneAlMenosRodados(3) && self.todosVanAlMenosA100()
 
-  method tieneAlMenos3Rodados() = flota.size() >= 3
+  method tieneAlMenosRodados(cantidad) = flota.size() >= cantidad
 
   method todosVanAlMenosA100() = flota.all({r => r.velocidadMax() >= 100})
 
@@ -123,13 +123,9 @@ class Dependencia {
 
   method rodadoMasRapido() = flota.max({r => r.velocidadMax()})
 
-  method capacidadFaltante() = self.cantidadEmpleados() - self.capacidadTotalFlota()
-
-  method cantidadEmpleados() = empleados.size()
+  method capacidadFaltante() = (empleados - self.capacidadTotalFlota()).max(0)
 
   method capacidadTotalFlota() = flota.sum({r => r.capacidad()})
 
-  method esGrande() = (self.cantidadEmpleados() >= 40) && (self.cantidadRodados() == 5)
-
-  method cantidadRodados() = flota.size()
+  method esGrande() = (empleados >= 40) && self.tieneAlMenosRodados(5)
 }
