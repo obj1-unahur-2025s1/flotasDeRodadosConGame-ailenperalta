@@ -1,12 +1,5 @@
-// CLASES
-// "molde" para objetos 
-// sintaxis:
-//           class Clase {
-//              codigo 
-//           }
-
 class Corsa {
-  var property color        //puedo definir un atributo sin inicializar
+  var property color       
 
   method capacidad() = 4
 
@@ -14,21 +7,6 @@ class Corsa {
 
   method peso() = 1300
 }
-
-// Instanciar objeto a partir de una clase:
-//                                          new Clase(atributo = valor)
-// ejemplo:
-//          new Corsa(color="rojo")
-
-// para poder accederlo tengo que guardarlo en una variable o constante:
-//                                                                       var unCorsa = new Corsa(color="rojo")
-
-// o dentro de una lista:
-//                        const listaDeAutos = [new Corsa(color="rojo")]
-// agrego otro corsa a la lista:
-//                               listaDeAutos.add(new Corsa(color="rojo")) --> es otra instancia de la clase corsa
-// doy de alta una referencia:
-//                             const primerCorsa = listaDeAutos.get(0) --> apunta a la instancia de la clase corsa en el i=0
 
 class Kwid {
   var property tieneTanqueAdicional 
@@ -42,7 +20,6 @@ class Kwid {
   method peso() = 1200 + if (tieneTanqueAdicional) 150 else 0 
 }
 
-// trafic es un objeto porque es solo una 
 object trafic {
   var property interior = comodo
   var property motor = pulenta
@@ -93,10 +70,9 @@ class Especial {
 //   var property tope = 200
 // }
 
-// instanciar un Especial --> const especial1 = new Especial(capacidad=5, peso=1800, etc) no importa el orden
-
 class Dependencia {
   const flota = []
+  const pedidos = []
   var property empleados = 0
 
   method agregarAFlota(rodado) {
@@ -106,6 +82,16 @@ class Dependencia {
   method quitarDeFlota(rodado) {
     flota.remove(rodado)
   }
+
+  method agregarPedido(unPedido) {
+    pedidos.add(unPedido)
+  }
+
+  method eliminarPedido(unPedido) {
+    pedidos.remove(unPedido)
+  }
+
+  method pedidos() = pedidos
 
   method pesoTotalFlota() = flota.sum({r => r.peso()})
 
@@ -128,4 +114,14 @@ class Dependencia {
   method capacidadTotalFlota() = flota.sum({r => r.capacidad()})
 
   method esGrande() = (empleados >= 40) && self.tieneAlMenosRodados(5)
+
+  method totalPasajeros() = self.pedidos().sum({p => p.cantPasajeros()}) 
+
+  method pedidosRechazados() = pedidos.filter({p => !flota.any({auto => p.puedeSatisfacerPedido(auto)})})
+
+  method esColorIncompatibleEnTodosLosPedidos(unColor) = self.pedidos().all({p => p.coloresIncompatibles().contains(unColor)})
+
+  method relajarTodos() {
+    self.pedidos().forEach({p => p.relajar()})
+  }
 }
