@@ -1,9 +1,13 @@
-import rodadosYDependencias.*
+import rodados.*
+import dependencia.*
+import pedido.*
 
 describe "test de rodados" {
   const deportes = new Dependencia(empleados=45)
   const cultura = new Dependencia(empleados=31)
-  var cachito = new Corsa(color="rojo")
+  const cachito = new Corsa(color="rojo")
+  const viaje1 = new Pedido(distancia=960, tiempoMax=8, cantPasajeros=4, coloresIncompatibles=#{"azul","negro"})
+  const viaje2 = new Pedido(distancia=960, tiempoMax=5, cantPasajeros=4, coloresIncompatibles=#{"azul","negro"})
 
   method initialize() {
     deportes.agregarAFlota(cachito)
@@ -11,6 +15,8 @@ describe "test de rodados" {
     deportes.agregarAFlota(new Corsa(color="verde"))
     deportes.agregarAFlota(new Kwid(tieneTanqueAdicional=true))
     deportes.agregarAFlota(new Especial(capacidad=5, velocidadMax=160, peso=1200, color="beige"))
+    deportes.agregarPedido(viaje1)
+    deportes.agregarPedido(viaje2)
 
     cultura.agregarAFlota(cachito)
     cultura.agregarAFlota(new Kwid(tieneTanqueAdicional=true))
@@ -67,5 +73,23 @@ describe "test de rodados" {
 
   test "La capacidad faltante de cultura es" {
     assert.equals(5, cultura.capacidadFaltante())
+  }
+
+  test "el total de pasajeros de los pedidos de deportes es 8" {
+    assert.equals(4+4, deportes.totalPasajeros())
+  }
+
+  test "el conjunto con el pedido viaje2 no puede ser satisfecho por ningun auto de la flota de deportes" {
+    assert.equals(#{viaje2}, deportes.pedidosRechazados())
+  }
+
+
+
+  test "todos los pedidos tienen el color azul como incompatible" {
+    assert.that(deportes.esColorIncompatibleEnTodosLosPedidos("azul"))
+  } 
+
+  test "no todos los pedidos tienen el color rojo como incompatible" {
+    assert.notThat(deportes.esColorIncompatibleEnTodosLosPedidos("rojo"))
   }
 }

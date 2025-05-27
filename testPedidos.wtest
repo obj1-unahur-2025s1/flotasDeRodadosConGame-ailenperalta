@@ -1,18 +1,17 @@
-import pedidos.*
-import rodadosYDependencias.*
+import pedido.*
+import rodados.*
+import dependencia.*
 
 describe "test pedido cachito" {
-    const viaje1 = new Pedido(distancia=960, tiempoMax=8, cantPasajeros=4)
-    var cachito = new Corsa(color="rojo")
+    const cachito = new Corsa(color="rojo")
+    const viaje1 = new Pedido(distancia=960, tiempoMax=8, cantPasajeros=4, coloresIncompatibles=#{"azul","negro"})
 
     test "cachito puede satisfacer el pedido viaje1" {
-        viaje1.agregarColor("azul")
-        viaje1.agregarColor("negro")
         assert.that(viaje1.puedeSatisfacerPedido(cachito))
     }
 
     test "agrego rojo a los colores incompatibles y cachito ya no puede satisfacer el pedido" {
-        viaje1.agregarColor("rojo")
+        viaje1.agregarColorIncompatible("rojo")
         assert.notThat(viaje1.puedeSatisfacerPedido(cachito))
     }
 
@@ -22,7 +21,8 @@ describe "test pedido cachito" {
     }
 
     test "el tiempo maximo cambia a 6 horas, cachito no puede satisfacer el pedido" {
-        viaje1.tiempoMax(6)
+        viaje1.acelerar()
+        viaje1.acelerar()
         assert.notThat(viaje1.puedeSatisfacerPedido(cachito))
     }
 }
