@@ -2,7 +2,7 @@ import rodados.*
 class Dependencia {
   const flota = []
   const pedidos = #{}
-  var property empleados  
+  var property empleados = 0  
 
   method agregarAFlota(rodado) {
     if (not coloresValidos.listaColores().contains(rodado.color())){

@@ -67,7 +67,7 @@ class Especial {
   var property peso
   var property color 
   var property capacidad
-  const property velocidadMax 
+  const velocidadMax 
 
   method velocidadMax() = velocidadMax.min(topeVelocidadMax.tope()) 
 

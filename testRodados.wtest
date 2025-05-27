@@ -83,7 +83,13 @@ describe "test de rodados" {
     assert.equals(#{viaje2}, deportes.pedidosRechazados())
   }
 
+  test "el pedido viaje1 puede ser satisfecho por 1 rodado" {
+    assert.that(deportes.algunoPuedeSatisfacerPedido(viaje1))
+  }
 
+  test "el pedido viaje2 no puede ser satisfecho por ningun auto de la flota de deportes" {
+    assert.notThat(deportes.algunoPuedeSatisfacerPedido(viaje2))
+  }
 
   test "todos los pedidos tienen el color azul como incompatible" {
     assert.that(deportes.esColorIncompatibleEnTodosLosPedidos("azul"))
